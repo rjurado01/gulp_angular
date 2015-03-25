@@ -5,7 +5,6 @@ var gulp =            require('gulp'),
     sass =            require('gulp-sass')
     gulpif =          require('gulp-if'),
     bower_files =     require('main-bower-files'),
-    angularFilesort = require('gulp-angular-filesort'),
     inject =          require('gulp-inject'),
     clean =           require('gulp-clean'),
     concat =          require('gulp-concat');
@@ -86,34 +85,57 @@ gulp.task('bower_files', ['clean_js'], function() {
 
 gulp.task('js', ['bower_files'], function() {
   if( env == 'production' ) {
-    return gulp.src('src/js/**/*.js')
-    .pipe(angularFilesort())
+    return gulp.src([
+        'src/js/libs/angular.js',
+        'src/js/libs/**/*.js',
+        'src/js/main.js',
+        'src/js/controllers/**/*.js'
+      ])
     .pipe(concat('main.js'))
     .pipe(gulp.dest(outputDir + '/js'));
   }
   else {
     return gulp.src('src/js/**/*.js')
-      .pipe(gulpif(env === 'production', uglify()))
       .pipe(gulp.dest(outputDir + '/js'));
   }
 });
 
 gulp.task('inject_js', ['js'], function() {
-  var sources = gulp.src(outputDir + '/js/**/*.js')
-    .pipe(angularFilesort());
+  var sources;
+
+  if(env === 'production')
+    sources = gulp.src(outputDir + '/js/main.js');
+  else
+    sources = gulp.src([
+      outputDir + '/js/libs/angular.js',
+      outputDir + '/js/libs/**/*.js',
+      outputDir + '/js/main.js',
+      outputDir + '/js/controllers/**/*.js'
+    ]);
 
   return gulp.src(outputDir + '/index.html')
     .pipe(inject(sources, {relative: true}))
     .pipe(gulp.dest(outputDir));
 });
 
-gulp.task('build_js', ['inject_js'])
+gulp.task('clean_bower_files', ['js'], function () {
+  var files = bower_files().map(function(file) {
+    var steps = file.split('/');
+    return 'src/js/libs/' + steps[steps.length - 1];
+  });
+
+  return gulp.src(files)
+    .pipe(clean());
+});
+
+gulp.task('build_js', ['inject_js', 'clean_bower_files'])
+
 
 /* OTHERS */
 
 gulp.task('watch', ['build_css', 'build_templates', 'build_js'], function () {
   gulp.watch('src/assets/sass/**/*.scss', ['build_css']);
-  gulp.watch('src/templates/**/*.jade', ['buld_templates']);
+  gulp.watch('src/templates/**/*.jade', ['build_templates']);
   gulp.watch('src/js/**/*.js', ['build_js']);
 });
 
