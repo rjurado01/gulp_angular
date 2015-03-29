@@ -11,7 +11,7 @@ GulpAngular.config(
     $stateProvider
       .state('home', {
         url: '/home',
-        templateUrl: 'home.html',
+        templateUrl: 'templates/home.html',
         controller: 'homeController as home_controller'
       })
   }
