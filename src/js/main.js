@@ -5,14 +5,19 @@ GulpAngular.config(
   function($stateProvider, $urlRouterProvider) {
 
     // For any unmatched url, redirect to /home
-    $urlRouterProvider.otherwise("/home");
+    $urlRouterProvider.otherwise("/login");
 
     // Set up the states
     $stateProvider
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'loginController as loginController'
+      })
       .state('home', {
         url: '/home',
         templateUrl: 'templates/home.html',
-        controller: 'homeController as home_controller'
+        controller: 'homeController as homeController'
       })
   }
 ]);

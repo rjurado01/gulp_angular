@@ -1,0 +1,19 @@
+form(name='form', ng-submit='loginController.submit()')
+  .form-group
+    input#email(
+      type='email',
+      name='email',
+      placeholder='Email',
+      ng-model='loginController.email',
+      ng-model-options="{updateOn: 'blur'}",
+      required='')
+  .form-group
+    input#password(
+      type='password',
+      name='password',
+      placeholder='Password',
+      ng-model='loginController.password',
+      ng-model-options="{updateOn: 'blur'}",
+      required='')
+
+  button#login_submit(type='submit') {{'login.login' | translate}}

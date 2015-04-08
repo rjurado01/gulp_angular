@@ -133,6 +133,7 @@ var js_files = [
   '/js/libs/angular-translate.js',
   '/js/libs/**/*.js',
   '/js/main.js',
+  '/js/services/**/*.js',
   '/js/controllers/**/*.js'
 ];
 

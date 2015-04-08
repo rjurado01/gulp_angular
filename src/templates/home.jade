@@ -1,7 +1,7 @@
-h1 {{'home.title' | translate}}
+h1 {{'home.title' | translate}} {{homeController.email}}
 
-button(ng-click="sayHello()") {{'home.push' | translate}}
+button(ng-click="homeController.sayHello()") {{'home.push' | translate}}
 
 #container.names
-  div(ng-repeat="name in names")
-    p {{name}}
+  div(ng-repeat="color in homeController.colors")
+    p {{color}}

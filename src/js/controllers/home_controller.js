@@ -1,7 +1,14 @@
-GulpAngular.controller('homeController', ['$scope', function($scope) {
-  $scope.names = ['Name1', 'Name2', 'Name3'];
+GulpAngular.controller('homeController', ['$state', 'sessionService',
+  function($state, sessionService) {
+    if( sessionService.getUser() )
+      this.email = sessionService.getUser().email;
+    else
+      $state.go('login');
 
-  $scope.sayHello = function() {
-    alert("Hello");
-  };
-}]);
+    this.colors = ['Red', 'Green', 'Blue'];
+
+    this.sayHello = function() {
+      alert("Hello");
+    };
+  }
+]);
