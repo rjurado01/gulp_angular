@@ -8,7 +8,9 @@ var gulp =            require('gulp'),
     inject =          require('gulp-inject'),
     clean =           require('gulp-clean'),
     concat =          require('gulp-concat'),
-    jsoncombine =     require("gulp-jsoncombine");
+    jsoncombine =     require("gulp-jsoncombine"),
+    shell =           require('gulp-shell'),
+    argv =            require('minimist');
 
 var env = process.env.ENV || 'development';
 var outputDir = 'builds/' + env;
@@ -217,3 +219,12 @@ gulp.task('connect', ['watch'], function() {
 gulp.task('build', ['build_css', 'build_templates', 'build_js', 'build_locales'])
 
 gulp.task('default', ['connect']);
+
+gulp.task('cucumber', function() {
+  var args = argv(process.argv.slice(2));
+
+  if( args.file )
+    shell.task('./node_modules/.bin/cucumber-js --format pretty ' + args.file)();
+  else
+    shell.task('./node_modules/.bin/cucumber-js --format pretty')();
+});
