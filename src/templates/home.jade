@@ -3,5 +3,5 @@ h1 {{'home.title' | translate}} {{homeController.email}}
 button#push_me(ng-click="homeController.sayHello()") {{'home.push' | translate}}
 
 #container.names
-  div(ng-repeat="color in homeController.colors")
-    p {{color}}
+  div(ng-repeat="post in homeController.posts")
+    p {{post.id}} - {{post.title}} ({{post.author}})

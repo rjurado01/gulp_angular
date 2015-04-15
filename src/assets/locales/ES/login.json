@@ -1,3 +1,5 @@
 {
-  "login": "Iniciar sessión"
+  "login": "Iniciar sessión",
+  "email": "Email",
+  "password": "Password"
 }

@@ -12,4 +12,5 @@ Feature: Login feature
     Given I visit login page
     When  I fill in login form
     And   I click 'Sign in' button
+    And   I wait 0.5 seconds
     Then  I should be redirected to home page

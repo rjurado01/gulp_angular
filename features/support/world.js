@@ -27,7 +27,8 @@ var WorldConstructor = function WorldConstructor(callback) {
     expect: chai.expect
   };
 
-  callback(world); // tell Cucumber we're finished and to use our world object instead of 'this'
+  // tell Cucumber we're finished and to use our world object instead of 'this'
+  callback(world);
 };
 
 exports.World = WorldConstructor

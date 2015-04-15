@@ -1,13 +1,25 @@
-GulpAngular.controller('homeController', ['$state', 'sessionService',
-  function($state, sessionService) {
-    if( sessionService.getUser() )
-      this.email = sessionService.getUser().email;
-    else
-      $state.go('login');
+GulpAngular.controller('homeController', ['$rootScope', '$http', '$state', 'sessionService',
+  function($rootScope, $http, $state, sessionService) {
+    var vm = this;
+    vm.post = [];
+    vm.email = '';
 
-    this.colors = ['Red', 'Green', 'Blue'];
+    activate();
 
-    this.sayHello = function() {
+    function activate() {
+      if( sessionService.getUser() ) {
+        // get user email used in login
+        vm.email = sessionService.getUser().email;
+      }
+
+      // get posts from api
+      $http.get($rootScope.api_url + '/posts')
+      .success(function(data) {
+        vm.posts = data;
+      })
+    }
+
+    vm.sayHello = function() {
       alert("Hello");
     };
   }

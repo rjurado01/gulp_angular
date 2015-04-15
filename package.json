@@ -1,9 +1,11 @@
 {
   "devDependencies": {
+    "body-parser": "^1.12.2",
     "bower": "~1.3.12",
     "chai": "^2.2.0",
     "chai-webdriver": "^1.1.1",
     "chromedriver": "^2.14.1",
+    "connect": "^3.3.5",
     "cucumber": "^0.4.8",
     "gulp": "^3.8.11",
     "gulp-clean": "^0.3.1",
@@ -13,11 +15,14 @@
     "gulp-inject": "^1.2.0",
     "gulp-jade": "^1.0.0",
     "gulp-jsoncombine": "^1.0.2",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^1.3.3",
     "gulp-shell": "^0.4.0",
     "gulp-uglify": "^1.1.0",
+    "json-server": "^0.6.9",
     "main-bower-files": "^2.6.2",
     "minimist": "^1.1.1",
+    "mocked-backend": "^0.2.6",
     "phantomjs": "^1.9.16",
     "selenium-webdriver": "^2.45.1"
   }

@@ -31,6 +31,10 @@ GulpAngular.config(['$translateProvider', function ($translateProvider) {
   $translateProvider.preferredLanguage('en');
 }]);
 
+GulpAngular.run(['$rootScope', function($rootScope) {
+  $rootScope.api_url = 'http://localhost:3000';
+}]);
+
 function init() {
   console.log('Gulp angular works fine !!');
 }

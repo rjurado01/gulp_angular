@@ -2,7 +2,7 @@ var gulp =            require('gulp'),
     jade =            require('gulp-jade'),
     connect =         require('gulp-connect'),
     uglify =          require('gulp-uglify'),
-    sass =            require('gulp-sass')
+    sass =            require('gulp-sass'),
     gulpif =          require('gulp-if'),
     bower_files =     require('main-bower-files'),
     inject =          require('gulp-inject'),
@@ -10,7 +10,9 @@ var gulp =            require('gulp'),
     concat =          require('gulp-concat'),
     jsoncombine =     require("gulp-jsoncombine"),
     shell =           require('gulp-shell'),
-    argv =            require('minimist');
+    argv =            require('minimist'),
+    jsonServer =      require('json-server'),
+    bodyParser =      require('body-parser');
 
 var env = process.env.ENV || 'development';
 var outputDir = 'builds/' + env;
@@ -209,16 +211,28 @@ gulp.task('watch', ['build_css', 'build_templates', 'build_js', 'build_locales']
   gulp.watch('src/js/**/*.js', ['rebuild_js']);
 });
 
-gulp.task('connect', ['watch'], function() {
+gulp.task('mock_api', function() {
+  var server = jsonServer.create();
+  var router = jsonServer.router("seed/db.json");
+  server.use(bodyParser.json());
+
+  server.post('/session', function(req, res) {
+    if( req.body.user && req.body.user.email && req.body.user.password )
+      res.json({email: req.body.email, access_token:'123456789'});
+    else
+      res.send(401);
+  })
+
+  server.use(router);
+  server.listen(3000);
+});
+
+gulp.task('connect', ['watch', 'mock_api'], function() {
   connect.server({
     root: outputDir,
     livereload: true
   });
 });
-
-gulp.task('build', ['build_css', 'build_templates', 'build_js', 'build_locales'])
-
-gulp.task('default', ['connect']);
 
 gulp.task('cucumber', function() {
   var args = argv(process.argv.slice(2));
@@ -228,3 +242,7 @@ gulp.task('cucumber', function() {
   else
     shell.task('./node_modules/.bin/cucumber-js --format pretty')();
 });
+
+gulp.task('build', ['build_css', 'build_templates', 'build_js', 'build_locales'])
+
+gulp.task('default', ['connect']);
