@@ -7,10 +7,7 @@ GulpAngular.controller('homeController', ['$rootScope', '$http', '$state', 'sess
     activate();
 
     function activate() {
-      if( sessionService.getUser() ) {
-        // get user email used in login
-        vm.email = sessionService.getUser().email;
-      }
+      vm.email = sessionService.getEmail();
 
       // get posts from api
       $http.get($rootScope.api_url + '/posts')

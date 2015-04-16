@@ -2,10 +2,10 @@ GulpAngular.service('sessionService', ['$rootScope', '$http', '$state',
   function($rootScope, $http, $state) {
     return({
       login: login,
-      getUser: getUser
+      getEmail: getEmail
     });
 
-    var user;
+    var session;
 
     function login(email, password) {
       $http.post($rootScope.api_url + '/session', {
@@ -15,7 +15,7 @@ GulpAngular.service('sessionService', ['$rootScope', '$http', '$state',
         }
       }).
       success(function(data) {
-        user = data.user;
+        session = data.session;
         $state.go('home');
       }).
       error(function() {
@@ -23,8 +23,9 @@ GulpAngular.service('sessionService', ['$rootScope', '$http', '$state',
       });
     };
 
-    function getUser() {
-      return user;
+    function getEmail() {
+      if( session )
+        return session.user_email;
     };
   }
 ]);

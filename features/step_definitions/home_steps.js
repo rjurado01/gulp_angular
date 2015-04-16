@@ -8,35 +8,36 @@ var homeSteps = function () {
   });
 
   this.Then(/^I should see my email$/, function (callback) {
-    this.expect('body').dom.to.contain.text('aa@bb.com').then(callback);
+    this.driver.getText('body').should.eventually.contain('aa@bb.com').notify(callback);
   });
 
   this.Then(/^I should see colors list$/, function (callback) {
-    this.expect('body').dom.to.contain.text('Post 1')
-    this.expect('body').dom.to.contain.text('Post 2')
-    this.expect('body').dom.to.contain.text('Post 3').then(callback);
+    this.text('body').should.eventually.contain('Post 1');
+    this.text('body').should.eventually.contain('Post 2');
+    this.text('body').should.eventually.contain('Post 3').notify(callback);
   });
 
   this.When(/^I click 'Push me' button$/, function (callback) {
-    this.find({id: 'push_me'}).click()
-    callback();
+    this.click('#push_me').then(callback);
   });
 
   this.Then(/^I see alert message$/, function (callback) {
-    var alert_msg = this.driver.switchTo().alert();
-    alert_msg.accept();
-    callback();
+    this.driver.alertAccept(callback);
   });
 
   this.Then(/^I should( not)? be redirected to home page$/, function(negation, callback) {
-    this.driver.getCurrentUrl().then(function(url) {
-      if( !negation && url == 'http://localhost:8080/#/home')
-        callback();
-      else if( negation && url != 'http://localhost:8080/#/home')
-        callback();
-      else
-        callback.fail(new Error("Expected to be on route '/home'"));
-    });
+    var url = 'http://localhost:8080/#/home';
+
+    if( negation ) {
+      this.driver.url().then(function(url) {
+        return url.value;
+      }).should.not.eventually.equal(url).notify(callback);
+    }
+    else {
+      this.driver.url().then(function(url) {
+        return url.value;
+      }).should.eventually.equal(url).notify(callback);
+    }
   });
 };
 

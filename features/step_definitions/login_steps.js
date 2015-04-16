@@ -4,21 +4,17 @@ var loginSteps = function () {
 
   this.Given("I visit login page", function(callback) {
     this.visit('http://localhost:8080');
-    this.expect('#email').dom.to.be.visible();
-    this.expect('#password').dom.to.be.visible().then(callback);
+    this.driver.isVisible('#email').should.eventually.be.true;
+    this.driver.isVisible('#password').should.eventually.be.true.notify(callback);
   });
 
   this.When("I click 'Sign in' button", function(callback) {
-    this.expect('#login_submit').dom.to.have.count(1);
-    this.find({id: 'login_submit'}).click();
-    callback();
+    this.click('#login_submit').then(callback);
   });
 
   this.When("I fill in login form", function(callback) {
-    this.find({id: 'email'}).sendKeys('aa@bb.com');
-    this.find({id: 'password'}).sendKeys('123');
-    this.expect('#email').dom.to.have.value('aa@bb.com');
-    this.expect('#password').dom.to.have.value('123').then(callback);
+    this.driver.setValue('#email', 'aa@bb.com');
+    this.driver.setValue('#password', '123').then(callback);
   });
 };
 

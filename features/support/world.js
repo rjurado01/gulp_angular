@@ -1,34 +1,48 @@
-var webdriver = require("selenium-webdriver");
+var selenium =        require('selenium-standalone'),
+    webdriverio =     require("webdriverio"),
+    chai =            require('chai'),
+    chaiAsPromised =  require("chai-as-promised");
 
-selenium_driver = new webdriver.Builder()
-  .withCapabilities(webdriver.Capabilities.chrome())
-//  .withCapabilities(webdriver.Capabilities.phantomjs())
-  .build();
+webdriver = new webdriverio.remote({
+  desiredCapabilities: {
+    browserName: 'chrome'
+  }
+});
+
+chai.should();
+chaiAsPromised.transferPromiseness = webdriver.transferPromiseness;
+chai.use(chaiAsPromised);
+
+// start selenium and open browser
+selenium.start(function(err, child) {
+});
 
 var WorldConstructor = function WorldConstructor(callback) {
-
-  var driver = selenium_driver;
-  var chai = require('chai');
-  var chaiWebdriver = require('chai-webdriver');
-  chai.use(chaiWebdriver(driver));
-
   var world = {
-    driver: driver,
+    driver: webdriver,
     chai: chai,
 
     visit: function(url) {
-      driver.get(url);
+      webdriver.url(url);
     },
 
-    find: function(hash) {
-      return driver.findElement(hash)
+    find: function(id) {
+      return webdriver.element(id);
     },
 
-    expect: chai.expect
+    click: function(id) {
+      return webdriver.click(id);
+    },
+
+    text: function(id) {
+      return webdriver.getText(id);
+    }
   };
 
-  // tell Cucumber we're finished and to use our world object instead of 'this'
-  callback(world);
+  webdriver.init().then(function() {
+    // tell Cucumber we're finished and to use our world object instead of 'this'
+    callback(world);
+  });
 };
 
 exports.World = WorldConstructor

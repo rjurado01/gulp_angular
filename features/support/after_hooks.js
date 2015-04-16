@@ -1,11 +1,10 @@
 var myAfterHooks = function () {
   this.After(function(callback) {
-    callback();
+    webdriver.end(callback);
   });
 
   this.registerHandler('AfterFeatures', function (event, callback) {
-    selenium_driver.close();
-    callback();
+    webdriver.endAll(callback);
   });
 };
 

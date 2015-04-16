@@ -1,7 +1,9 @@
 GulpAngular.controller('loginController', ['sessionService',
   function(sessionService) {
-    this.submitLogin = function() {
-      sessionService.login(this.email, this.password);
+    var vm = this;
+
+    vm.submitLogin = function() {
+      sessionService.login(vm.email, vm.password);
     };
   }
 ]);

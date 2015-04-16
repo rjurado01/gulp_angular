@@ -218,7 +218,7 @@ gulp.task('mock_api', function() {
 
   server.post('/session', function(req, res) {
     if( req.body.user && req.body.user.email && req.body.user.password )
-      res.json({email: req.body.email, access_token:'123456789'});
+      res.json({session: {user_email: req.body.user.email, access_token:'123456789'}});
     else
       res.send(401);
   })
