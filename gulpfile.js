@@ -12,7 +12,8 @@ var gulp =            require('gulp'),
     shell =           require('gulp-shell'),
     argv =            require('minimist'),
     jsonServer =      require('json-server'),
-    bodyParser =      require('body-parser');
+    bodyParser =      require('body-parser'),
+    selenium =        require('selenium-standalone');
 
 var env = process.env.ENV || 'development';
 var outputDir = 'builds/' + env;
@@ -236,11 +237,17 @@ gulp.task('connect', ['watch', 'mock_api'], function() {
 
 gulp.task('cucumber', function() {
   var args = argv(process.argv.slice(2));
+  var command = './node_modules/.bin/cucumber-js --format pretty';
 
   if( args.file )
-    shell.task('./node_modules/.bin/cucumber-js --format pretty ' + args.file)();
-  else
-    shell.task('./node_modules/.bin/cucumber-js --format pretty')();
+    command = command + ' ' + args.file;
+
+  selenium.start(function(err, child) {
+    gulp.src('')
+      .pipe( shell(command) )
+      .on('end', function() { child.kill(); })
+      .on('error', function() { child.kill(); });
+  });
 });
 
 gulp.task('build', ['build_css', 'build_templates', 'build_js', 'build_locales'])

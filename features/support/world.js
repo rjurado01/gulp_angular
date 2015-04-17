@@ -1,5 +1,4 @@
-var selenium =        require('selenium-standalone'),
-    webdriverio =     require("webdriverio"),
+var webdriverio =     require("webdriverio"),
     chai =            require('chai'),
     chaiAsPromised =  require("chai-as-promised");
 
@@ -12,10 +11,6 @@ webdriver = new webdriverio.remote({
 chai.should();
 chaiAsPromised.transferPromiseness = webdriver.transferPromiseness;
 chai.use(chaiAsPromised);
-
-// start selenium and open browser
-selenium.start(function(err, child) {
-});
 
 var WorldConstructor = function WorldConstructor(callback) {
   var world = {
