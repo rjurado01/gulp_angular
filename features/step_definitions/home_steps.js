@@ -8,13 +8,14 @@ var homeSteps = function () {
   });
 
   this.Then(/^I should see my email$/, function (callback) {
-    this.driver.getText('body').should.eventually.contain('aa@bb.com').notify(callback);
+    this.expect(this.driver.getText('body'))
+      .eventually.contain('aa@bb.com').notify(callback);
   });
 
   this.Then(/^I should see colors list$/, function (callback) {
-    this.text('body').should.eventually.contain('Post 1');
-    this.text('body').should.eventually.contain('Post 2');
-    this.text('body').should.eventually.contain('Post 3').notify(callback);
+    this.expect(this.text('body')).eventually.contain('Post 1');
+    this.expect(this.text('body')).eventually.contain('Post 2');
+    this.expect(this.text('body')).eventually.contain('Post 3').notify(callback);
   });
 
   this.When(/^I click 'Push me' button$/, function (callback) {
@@ -29,14 +30,12 @@ var homeSteps = function () {
     var url = 'http://localhost:8080/#/home';
 
     if( negation ) {
-      this.driver.url().then(function(url) {
-        return url.value;
-      }).should.not.eventually.equal(url).notify(callback);
+      this.expect(this.driver.url().then(function(url) { return url.value; }))
+        .not.eventually.equal(url).notify(callback);
     }
     else {
-      this.driver.url().then(function(url) {
-        return url.value;
-      }).should.eventually.equal(url).notify(callback);
+      this.expect(this.driver.url().then(function(url) { return url.value; }))
+        .eventually.equal(url).notify(callback);
     }
   });
 };

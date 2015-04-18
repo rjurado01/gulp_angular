@@ -4,8 +4,8 @@ var loginSteps = function () {
 
   this.Given("I visit login page", function(callback) {
     this.visit('http://localhost:8080');
-    this.driver.isVisible('#email').should.eventually.be.true;
-    this.driver.isVisible('#password').should.eventually.be.true.notify(callback);
+    this.expect(this.driver.isVisible('#email')).eventually.be.true;
+    this.expect(this.driver.isVisible('#password')).eventually.be.true.notify(callback);
   });
 
   this.When("I click 'Sign in' button", function(callback) {

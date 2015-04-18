@@ -9,7 +9,6 @@ webdriver = new webdriverio.remote({
 });
 
 chai.should();
-chaiAsPromised.transferPromiseness = webdriver.transferPromiseness;
 chai.use(chaiAsPromised);
 
 var WorldConstructor = function WorldConstructor(callback) {
@@ -31,7 +30,9 @@ var WorldConstructor = function WorldConstructor(callback) {
 
     text: function(id) {
       return webdriver.getText(id);
-    }
+    },
+
+    expect: chai.expect
   };
 
   webdriver.init().then(function() {
