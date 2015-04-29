@@ -72,11 +72,16 @@ gulp.task('sass', ['clean_css'], function() {
     .pipe(gulp.dest(outputDir + '/css'));
 });
 
+gulp.task('fonts', function() {
+  return gulp.src('app/assets/fonts/*')
+    .pipe(gulp.dest(outputDir + '/fonts'));
+});
+
 gulp.task('inject_css', ['index'], function() {
   return inject_css();
 });
 
-gulp.task('build_css', ['index', 'sass'], function() {
+gulp.task('build_css', ['index', 'sass', 'fonts'], function() {
   return inject_css();
 });
 
