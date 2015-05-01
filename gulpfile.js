@@ -72,22 +72,31 @@ gulp.task('sass', ['clean_css'], function() {
     .pipe(gulp.dest(outputDir + '/css'));
 });
 
-gulp.task('fonts', function() {
-  return gulp.src('app/assets/fonts/*')
-    .pipe(gulp.dest(outputDir + '/fonts'));
-});
-
 gulp.task('inject_css', ['index'], function() {
   return inject_css();
 });
 
-gulp.task('build_css', ['index', 'sass', 'fonts'], function() {
+gulp.task('build_css', ['index', 'sass'], function() {
   return inject_css();
 });
 
 gulp.task('rebuild_css', ['build_css', 'inject_js'], function() {
   return inject_css()
     .pipe(connect.reload());
+});
+
+
+
+/************* OTHER ASSETS *************/
+
+gulp.task('fonts', function() {
+  return gulp.src('app/assets/fonts/*')
+    .pipe(gulp.dest(outputDir + '/fonts'));
+});
+
+gulp.task('images', function() {
+  return gulp.src('app/assets/images/*')
+    .pipe(gulp.dest(outputDir + '/images'));
 });
 
 
@@ -210,13 +219,6 @@ gulp.task('rebuild_js', ['build_js', 'inject_css'], function() {
 
 /************* OTHERS *************/
 
-gulp.task('watch', ['build_css', 'build_templates', 'build_js', 'build_locales'], function () {
-  gulp.watch('app/assets/sass/**/*.scss', ['rebuild_css']);
-  gulp.watch('app/assets/locales/**/*.json', ['build_locales']);
-  gulp.watch('app/templates/**/*.jade', ['build_templates']);
-  gulp.watch('app/js/**/*.js', ['rebuild_js']);
-});
-
 gulp.task('mock_api', function() {
   var server = jsonServer.create();
   var router = jsonServer.router("seed/db.json");
@@ -255,6 +257,14 @@ gulp.task('cucumber', function() {
   });
 });
 
-gulp.task('build', ['build_css', 'build_templates', 'build_js', 'build_locales'])
+gulp.task('build',
+  ['build_css', 'build_templates', 'build_js', 'build_locales', 'images', 'fonts'])
+
+gulp.task('watch', ['build'], function () {
+  gulp.watch('app/assets/sass/**/*.scss', ['rebuild_css']);
+  gulp.watch('app/assets/locales/**/*.json', ['build_locales']);
+  gulp.watch('app/templates/**/*.jade', ['build_templates']);
+  gulp.watch('app/js/**/*.js', ['rebuild_js']);
+});
 
 gulp.task('default', ['connect']);

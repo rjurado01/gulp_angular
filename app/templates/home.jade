@@ -1,7 +1,11 @@
-h1 {{'home.title' | translate}} {{homeController.email}}
+#left.inline_block
+  h1 {{'home.title' | translate}} {{homeController.email}}
 
-button#push_me(ng-click="homeController.sayHello()") {{'home.push' | translate}}
+  button#push_me(ng-click="homeController.sayHello()") {{'home.push' | translate}}
 
-#container.names
-  div(ng-repeat="post in homeController.posts")
-    p {{post.id}} - {{post.title}} ({{post.author}})
+  #container.names
+    div(ng-repeat="post in homeController.posts")
+      p {{post.id}} - {{post.title}} ({{post.author}})
+
+#right.inline_block
+ img(src="images/gulp.png")
