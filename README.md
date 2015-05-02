@@ -40,6 +40,27 @@ Now, project has been generated and you can visit this url:
 
     http://localhost:8080
 
+## Directory structure
+
+    app/
+    ├── index.jade
+    ├── assets
+    │   ├── fonts
+    │   ├── images
+    │   ├── locales
+    │   │   ├── EN
+    │   │   └── ES
+    │   └── sass
+    ├── js
+    │   ├── controllers
+    │   ├── libs
+    │   ├── main.js
+    │   └── services
+    └── templates
+    
+    
+You can see the 'app' project directory for more details.
+
 ## Environments
 
 **Development**
