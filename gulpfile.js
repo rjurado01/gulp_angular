@@ -191,7 +191,7 @@ gulp.task('clean_bower_files', ['js'], function () {
 
 gulp.task('js', ['bower_files'], function() {
   if( env == 'production' ) {
-    return gulp.src(js_files.map(function(x) { return 'src' + x; }))
+    return gulp.src(js_files.map(function(x) { return 'app' + x; }))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(outputDir + '/js'));
   }
